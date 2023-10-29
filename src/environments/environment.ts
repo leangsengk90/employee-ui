@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: "http://employee-api.sothy.cloud/api/",
-  PHOTO_URL: "http://employee-api.sothy.cloud/Photos/"
+  API_URL: "https://employee-api.sothy.cloud/api/",
+  PHOTO_URL: "https://employee-api.sothy.cloud/Photos/"
 };
 
 /*
