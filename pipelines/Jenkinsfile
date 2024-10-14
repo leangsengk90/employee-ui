@@ -34,8 +34,13 @@ pipeline {
                             docker push xeng/employee-ui:$BUILD_NUMBER
                         """
                     }
-                    
                 }
+            }
+        }
+
+        stage("Deploy"){
+            steps {
+                sh "docker run -d -p 4200:80 --name employee-ui xeng/employee-ui:$BUILD_NUMBER"
             }
         }
     }
