@@ -14,11 +14,22 @@ pipeline {
                 }
             }
         }
-        stage("Build"){
+
+        stage("Configuration"){
             steps {
                 sh """
-                    docker ps
+                    cp pipelines/Dockerfile $WORKSPACE/$PROJECT_PATH
                 """
+            }
+        }
+
+        stage("Build"){
+            steps {
+                dir("$WORKSPACE/$PROJECT_PATH"){
+                    sh """
+                        docker build -t employee-ui -f Dockerfile .
+                    """
+                }
             }
         }
     }
