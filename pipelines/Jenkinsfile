@@ -19,8 +19,8 @@ pipeline {
             steps {
                 dir("$WORKSPACE/$PROJECT_PATH"){
                     configFileProvider([configFile(fileId: 'employee-ui-env', 
-                        variable: 'ENV')]) {
-                        sh "echo ${ENV}"
+                        variable: 'EMPLOYEE-UI')]) {
+                        sh "echo ${env.EMPLOYEE-UI} > .env"
                     }
                 }
                 sh """
@@ -47,7 +47,7 @@ pipeline {
         stage("Deploy"){
             steps {
                 sh """
-                    docker rm -f employee-ui
+                    docker rm -f employee-ui || true
                     docker run -d -p 4200:80 --name employee-ui xeng/employee-ui:$BUILD_NUMBER
                 """
             }
