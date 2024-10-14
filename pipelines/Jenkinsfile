@@ -29,7 +29,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-registry', 
                         passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh """
-                            docker login -u $USERNAME -p $USERNAME
+                            docker login -u $USERNAME -p $PASSWORD
                             docker build -t xeng/employee-ui:$BUILD_NUMBER -f Dockerfile .
                             docker push xeng/employee-ui:$BUILD_NUMBER
                         """
