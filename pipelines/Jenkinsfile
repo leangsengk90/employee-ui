@@ -2,13 +2,17 @@ pipeline {
     agent { label "master" }
     stages{
         stage("Resource"){
-            checkout scmGit(branches: [[name: '*/master']], extensions: [], 
-            userRemoteConfigs: [[url: 'https://github.com/leangsengk90/employee-ui.git']])
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], 
+                userRemoteConfigs: [[url: 'https://github.com/leangsengk90/employee-ui.git']])
+            }
         }
         stage("Build"){
-            sh """
-                docker ps
-            """
+            steps {
+                sh """
+                    docker ps
+                """
+            }  
         }
     }
 
