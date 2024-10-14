@@ -26,9 +26,15 @@ pipeline {
         stage("Build"){
             steps {
                 dir("$WORKSPACE/$PROJECT_PATH"){
-                    sh """
-                        docker build -t employee-ui:$BUILD_NUMBER -f Dockerfile .
-                    """
+                    withCredentials([usernamePassword(credentialsId: 'docker-registry', 
+                        passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh """
+                            docker login -u $USERNAME -p $USERNAME
+                            docker build -t xeng/employee-ui:$BUILD_NUMBER -f Dockerfile .
+                            docker push xeng/employee-ui:$BUILD_NUMBER
+                        """
+                    }
+                    
                 }
             }
         }
