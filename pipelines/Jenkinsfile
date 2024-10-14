@@ -20,9 +20,7 @@ pipeline {
                 dir("$WORKSPACE/$PROJECT_PATH"){
                     configFileProvider([configFile(fileId: 'employee-ui-env', 
                         variable: 'ENV')]) {
-                        sh """
-                            echo ${ENV}
-                        """
+                        sh "echo ${ENV}"
                     }
                 }
                 sh """
