@@ -4,8 +4,8 @@
 
 export const environment = {
   production: `false`,
-  API_URL: "https://api.work-shop/api/",
-  PHOTO_URL: "https://api.work-shop/Photos/"
+  API_URL: "https://api.work-shop.com/api/",
+  PHOTO_URL: "https://api.work-shop.com/Photos/"
 };
 
 /*
