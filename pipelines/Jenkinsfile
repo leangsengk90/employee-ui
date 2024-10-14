@@ -1,7 +1,7 @@
 pipeline {
     agent { label "built-in"}
 
-    environments {
+    environment {
         PROJECT_PATH = "employee-ui"
     }
 
