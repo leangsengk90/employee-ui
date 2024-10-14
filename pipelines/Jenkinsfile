@@ -19,8 +19,7 @@ pipeline {
             steps {
                 dir("$WORKSPACE/$PROJECT_PATH"){
                     configFileProvider([configFile(fileId: 'employee-ui-env', 
-                        variable: 'EMPLOYEE_UI')]) {
-                        sh "echo ${env.EMPLOYEE_UI} > .env"
+                        targetLocation: '.env', variable: 'EMPLOYEE_UI')]) {
                     }
                 }
                 sh """
