@@ -41,7 +41,7 @@ pipeline {
         stage("Deploy"){
             steps {
                 sh """
-                    dockers rm -f employee-ui || true
+                    docker rm -f employee-ui || true
                     docker run -d -p 4200:80 --name employee-ui xeng/employee-ui:$BUILD_NUMBER
                 """
             }
