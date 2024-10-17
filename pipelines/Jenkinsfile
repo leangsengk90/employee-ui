@@ -32,6 +32,7 @@ pipeline {
                 }
                 sh """
                     cp pipelines/Dockerfile $WORKSPACE/$PROJECT_PATH
+                    cp pipelines/Dockerfile.dev $WORKSPACE/$PROJECT_PATH
                     cp pipelines/default.conf $WORKSPACE/$PROJECT_PATH
                     cp pipelines/docker-compose.yaml $WORKSPACE/$PROJECT_PATH
                 """
