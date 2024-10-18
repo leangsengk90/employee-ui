@@ -1,0 +1,63 @@
+pipeline {
+    agent { label "built-in"}
+
+    environment {
+        PROJECT_PATH = "employee-ui"
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Enter your branch!')
+        // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        // booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        // choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
+        // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+    }
+
+    stages{
+        stage("Resource"){
+            steps {
+                dir("$WORKSPACE/$PROJECT_PATH"){
+                    checkout scmGit(branches: [[name: '*/${BRANCH}']], extensions: [], 
+                    userRemoteConfigs: [[url: 'https://github.com/leangsengk90/employee-ui.git']])
+                }
+            }
+        }
+
+        stage("Configuration"){
+            steps {
+                dir("$WORKSPACE/$PROJECT_PATH"){
+                    configFileProvider([configFile(fileId: 'employee-ui-env', 
+                        targetLocation: '.env')]) {
+                    }
+                }
+                sh """
+                    cp pipelines/Dockerfile.dev $WORKSPACE/$PROJECT_PATH
+                    cp pipelines/default.conf $WORKSPACE/$PROJECT_PATH
+                    cp pipelines/docker-compose.yaml $WORKSPACE/$PROJECT_PATH
+                """
+            }
+        }
+
+        stage("Build & Deploy"){
+            steps {
+                dir("$WORKSPACE/$PROJECT_PATH"){
+                    withCredentials([usernamePassword(credentialsId: 'docker-registry', 
+                        passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh """
+                            docker login -u $USERNAME -p $PASSWORD
+                            docker compose up -d
+                        """
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Clean Workspace"
+            cleanWs()
+        }
+    }
+
+}
